@@ -1,0 +1,8 @@
+[package]
+name = "hello-genmini-rs"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gemini-rs = "0.4.2"
+tokio = "1.43.0"
