@@ -6,6 +6,7 @@ use reqwest::{
     header::{CONTENT_TYPE, HeaderMap, HeaderValue},
 };
 use serde_json::{Value, json};
+use std::env;
 use std::fs;
 
 // What I am trying to do;
@@ -21,9 +22,9 @@ use std::fs;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let api_key = "AIzaSyDFw0KyRt7R3PvPmwJbuwMpWpK30RR-iyQ"; // Replace with your API key
-    let image_path = "/var/home/seungjin/Downloads/e5860900baa40d24.jpg"; // Replace with your image path
-    let prompt = "Two sentences image description for ALT text";
+    let api_key = env::var("GEMINI_API_KEY")?;
+    let image_path = "/var/home/seungjin/Downloads/e5860900baa40d24.jpg";
+    let prompt = "Image description for ALT text. Less than two sentences.";
 
     let base64_image = encode_image_to_base64(image_path)?;
 
@@ -31,7 +32,7 @@ async fn main() -> Result<()> {
 
     let mut headers = HeaderMap::new();
     headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
-    headers.insert("x-goog-api-key", HeaderValue::from_str(api_key).unwrap());
+    headers.insert("x-goog-api-key", HeaderValue::from_str(&api_key).unwrap());
 
     let body = json!({
          "contents": [
