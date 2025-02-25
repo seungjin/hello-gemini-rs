@@ -21,7 +21,7 @@ use std::fs;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let api_key = ""; // Replace with your API key
+    let api_key = "AIzaSyDFw0KyRt7R3PvPmwJbuwMpWpK30RR-iyQ"; // Replace with your API key
     let image_path = "/var/home/seungjin/Downloads/e5860900baa40d24.jpg"; // Replace with your image path
     let prompt = "Two sentences image description for ALT text";
 
@@ -32,10 +32,6 @@ async fn main() -> Result<()> {
     let mut headers = HeaderMap::new();
     headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
     headers.insert("x-goog-api-key", HeaderValue::from_str(api_key).unwrap());
-    headers.insert(
-        "x-goog-generativeai-api-version",
-        HeaderValue::from_static("v1beta"),
-    );
 
     let body = json!({
          "contents": [
@@ -55,12 +51,7 @@ async fn main() -> Result<()> {
         ]
     });
 
-    let response = client
-        .post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent")
-        .headers(headers)
-        .json(&body)
-        .send()
-        .await?;
+    let response = client.post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent").headers(headers).json(&body).send().await?;
 
     if response.status().is_success() {
         let json_response: Value = response.json().await?;
